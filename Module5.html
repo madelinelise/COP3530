@@ -1,0 +1,178 @@
+
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+ 
+
+<script> 
+
+  var uInput = ""; //tttt
+  var counter = 0;
+
+  var node = function(c) {
+      this.next = null;
+      this.previous = null;
+      this.content = c;
+    }
+
+  var queue = function() {
+    this.front = null;
+    this.end = null;
+    
+    this.push = function(c) {
+      if (this.front == null) {
+        this.front = new node(c);
+        this.end = this.front;
+        return this;
+      }
+      
+      var newNode = new node(c);
+
+      newNode.previous = this.end;
+
+      this.end.next = newNode;
+
+      this.end = newNode;       
+      return this;
+    }
+
+    this.removeFront = function() {
+      if (this.front == null) {
+        return null;
+      }
+
+      var removeContent = this.front.content;
+
+      if(this.end == this.front){
+            this.front = null;
+            this.end = null;
+            return removeContent;
+      }
+
+      else
+      {
+       this.front = this.front.next;
+       this.front.previous = null;  
+       return removeContent;
+      }
+    }
+
+    this.removeEnd = function() {
+      if (this.front == null) {
+        return null;
+      }
+
+      var removeContent = this.end.content;
+      if(this.end == this.front){
+            this.front = null;
+            this.end = null;
+            return a;
+      }else{
+        this.end = this.end.previous;
+        this.end.next = null;      
+        return removeContent;
+      }
+    }
+
+    this.toString = function() {
+      var str = "";
+      var node = this.front;
+      if (this.front == null){
+        str = "queue is empty";
+      }
+
+      while (node != null) {
+        str += node.content + " ";
+        node = node.next;
+      }
+
+      return str;
+    }
+    
+    this.countElements = function() {
+      var counter = 0;
+      var node = this.front;
+      while (node != null) {
+        node = node.next;
+        counter= counter+1;
+      }
+      return counter;
+    }
+  }
+
+function createQueue() {
+    if (listOne.countElements() > 0) {
+    
+    listTwo = new queue();
+
+  var holdIt = listOne.removeFront();
+  uInput = holdIt;
+  listOut.push(uInput);
+
+  while (holdIt != null) {
+    var x = holdIt % uInput;
+    if (x >= 1 ) {
+      listTwo.push(holdIt);
+    }else{
+      listRemoved.push(holdIt);
+    }
+    holdIt = listOne.removeFront();
+  }
+
+  listOne = listTwo;
+  counter++;
+  str = "";
+  str += "counter " + counter + ": ";
+  genString();
+  }
+}
+
+function seedqueue() {
+  var n = document.getElementById("n").value;
+  var x;
+  for (var i = 1; i < n; i++) {
+    x = i + 1
+    listOne.push(x);
+  }
+  str += "counter " + counter + ": ";
+  genString();
+}
+
+function genString() {
+  str += "<br>L1: " + listOne.toString() + "<br>Q1: " + listOut.toString();
+  document.getElementById("output").innerHTML = str;
+}
+  var listOne = new queue();
+  var listTwo = new queue();
+  var listRemoved = new queue();
+  var listOut = new queue();
+  str = "";
+
+</script>
+</head>
+
+<body>
+  
+
+<br>
+N: <input type="textbox" id="n"/>
+<input type="button" value="Seed" onClick="seedqueue();" />
+<input type="button" value="Run" onClick="createQueue();" />
+
+<p id="output"></p>
+
+
+</body>
+</html>
+
+
+

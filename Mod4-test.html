@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+<html lang="en">
+
+
+
+<head>
+
+
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>Title Goes Here</title>
+
+
+<script>
+
+
+  var Node = function(_content) {
+      this.next = null;
+      this.last = null;
+      this.content = _content;
+
+    }
+  var Stack = function() {
+    this.head = null;
+    this.top = null;
+    
+    this.push = function(_content) {
+      // No head - create one
+      if (this.head == null) {
+        this.head = new Node(_content);
+        this.top = this.head;
+        return this;
+      }
+      
+      var addedNode = new Node(_content);
+      addedNode.last = this.top;   // pointer to previous node
+      this.top.next = addedNode;   // current top points to new
+      this.top = addedNode;        // which becomes new top
+      return this;
+    }
+
+
+    this.pop = function() {
+      if (this.head == null) {
+   
+        return null;
+      }
+
+			var a = this.top.content;
+
+      if(this.top == this.head){
+   
+				    this.head = null;
+    				this.top = null;
+           	return a;
+      }else{
+        this.top = this.top.last;
+        this.top.next = null;      
+      	return a;
+      }
+    }
+  
+  }
+
+function pushStack() {
+  var userInput = document.getElementById("userInput").value;
+	str = "";
+	str += "Added " +  userInput + " to the stack.";
+  stack.push(userInput);
+  outputFun();
+}
+ 
+function calculate() {
+  var uOpInput = document.getElementById("userOpInput").value;
+
+  str = "";
+
+	var a = parseInt(stack.head.content);
+  var b = parseInt(stack.top.content);
+
+
+	if (uOpInput == "+"){  
+    outputStr =  a + b;
+  }
+  if (uOpInput == "-"){  
+    outputStr =  a - b;
+  }
+  if (uOpInput == "*"){  
+    outputStr =  a * b;
+  }
+  if (uOpInput == "/"){  
+    outputStr =  a / b;
+  }
+
+str += a + "&nbsp;" + uOpInput + "&nbsp;" + b+ " = " + outputStr;
+
+  stack.pop();
+  stack.pop();
+  stack.push(outputStr); 
+outputFun();
+}
+
+function outputFun() {
+ 
+  document.getElementById("output").innerHTML = str;
+
+}
+
+  var stack = new Stack();
+
+
+  </script>
+
+</head>
+
+
+<body>
+
+<p>
+
+Please enter a number and perform an operation. </p>
+
+<input type="textbox" id="userInput" value="1" size="4" /> <input type="button" value="Push to Stack" onClick="pushStack();" /> <br>
+<input type="textbox" id="userOpInput" value="+" size="2"/><input type="button" value="Calculator" onClick="calculate();" />
+
+<p id="output"></p>
+
+</body>
+
+
+
+</html>
